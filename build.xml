@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="PlemiPayboxBundle" default="build">
+  <target name="build" depends="prepare,lint,phploc,pdepend,phpmd-ci,phpcs-ci,phpcpd,docblox,phpunit"/>
+  <target name="build-parallel" depends="prepare,lint,tools-parallel,phpunit"/>
+  <target name="tools-parallel" description="Run tools in parallel">
+    <parallel threadCount="2">
+      <sequential>
+        <antcall target="pdepend"/>
+        <antcall target="phpmd-ci"/>
+      </sequential>
+        <antcall target="phpcpd"/>
+        <antcall target="phpcs-ci"/>
+        <antcall target="phploc"/>
+        <antcall target="docblox"/>
+    </parallel>
+  </target>
+  <target name="clean" description="Cleanup build artifacts">
+    <delete dir="${basedir}/build/api"/>
+    <delete dir="${basedir}/build/code-browser"/>
+    <delete dir="${basedir}/build/coverage"/>
+    <delete dir="${basedir}/build/doc"/>
+    <delete dir="${basedir}/build/logs"/>
+    <delete dir="${basedir}/build/pdepend"/>
+  </target>
+  <target name="prepare" depends="clean,vendor" description="Prepare for build">
+    <mkdir dir="${basedir}/build/api"/>
+    <mkdir dir="${basedir}/build/code-browser"/>
+    <mkdir dir="${basedir}/build/coverage"/>
+    <mkdir dir="${basedir}/build/doc"/>
+    <mkdir dir="${basedir}/build/logs"/>
+    <mkdir dir="${basedir}/build/pdepend"/>
+  </target>
+  <target name="vendor" description="Installing vendor">
+    <exec executable="php" failonerror="true">
+      <arg value="${basedir}/vendor/vendor.php" />
+    </exec>
+  </target>  
+  <target name="lint">
+    <apply executable="php" failonerror="true">
+      <arg value="-l" />
+      <fileset dir="${basedir}">
+        <exclude name="**/vendor/**" />
+        <include name="**/*.php" />
+      </fileset>
+      <fileset dir="${basedir}/Tests">
+        <include name="**/*.php" />
+        <modified />
+      </fileset>
+    </apply>
+  </target>
+  <target name="phploc" description="Measure project size using PHPLOC">
+    <exec executable="phploc">
+      <arg value="--exclude" />
+      <arg value="vendor" />
+      <arg value="--log-csv" />
+      <arg value="${basedir}/build/logs/phploc.csv" />
+      <arg path="${basedir}" />
+    </exec>
+  </target>
+  <target name="pdepend" description="Calculate software metrics using PHP_Depend">
+    <exec executable="pdepend">
+      <arg value="--phpunit-xml=${basedir}/build/logs/pdepend.xml" />
+      <arg value="--jdepend-xml=${basedir}/build/logs/jdepend.xml" />
+      <arg value="--jdepend-chart=${basedir}/build/pdepend/dependencies.svg" />
+      <arg value="--overview-pyramid=${basedir}/build/pdepend/overview-pyramid.svg" />
+      <arg value="--ignore=vendor" />
+      <arg path="${basedir}" />
+    </exec>
+  </target>
+  <target name="phpmd" description="Perform project mess detection using PHPMD">
+    <exec executable="phpmd">
+      <arg path="${basedir}" />
+      <arg value="text" />
+      <arg value="${basedir}/build/phpmd.xml" />
+      <arg value="--exclude" />
+      <arg value="vendor" />
+    </exec>
+  </target>
+  <target name="phpmd-ci" description="Perform project mess detection using PHPMD">
+    <exec executable="phpmd">
+      <arg path="${basedir}" />
+      <arg value="xml" />
+      <arg value="codesize,unusedcode,design" />
+      <arg value="--reportfile" />
+      <arg value="${basedir}/build/logs/pmd.xml" />
+      <arg value="--exclude" />
+      <arg value="vendor,Tests" />
+    </exec>
+  </target>
+  <target name="phpcs" description="Find coding standard violations using PHP_CodeSniffer">
+    <exec executable="phpcs">
+      <arg value="--ignore=vendor/**" />
+      <arg path="${basedir}" />
+    </exec>
+  </target>
+  <target name="phpcs-ci" description="Find coding standard violations using PHP_CodeSniffer">
+    <exec executable="phpcs" output="/dev/null">
+      <arg value="--ignore=vendor/**,Tests/**" />
+      <arg value="--report=checkstyle" />
+      <arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
+      <arg path="${basedir}" />
+    </exec>
+  </target>
+  <target name="phpcpd" description="Find duplicate code using PHPCPD">
+    <exec executable="phpcpd">
+      <arg value="--exclude" />
+      <arg value="vendor" />
+      <arg value="--log-pmd" />
+      <arg value="${basedir}/build/logs/pmd-cpd.xml" />
+      <arg path="${basedir}" />
+    </exec>
+  </target>
+  <target name="phpunit" description="Run unit tests with PHPUnit">
+    <exec executable="phpunit" failonerror="false">
+      <arg value="-c" />
+      <arg value="phpunit.xml.ci" />
+    </exec>
+  </target>
+  <target name="docblox" description="Generate code documentation with DocBlox">
+    <exec executable="docblox">
+      <arg value="--directory" />
+      <arg value="${basedir}" />
+      <arg value="--target" />
+      <arg value="${basedir}/build/doc" />
+      <arg value="--title" />
+      <arg value="PlemiPayboxBundle" />
+      <arg value="--ignore" />
+      <arg value="build/*,vendor/*,Tests/*" />
+      <arg value="--extensions" />
+      <arg value="php" />
+    </exec>
+  </target>
+</project>

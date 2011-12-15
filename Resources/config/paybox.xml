@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <parameters>
+        <parameter key="plemi_paybox.request.class">Plemi\Bundle\PayboxBundle\PayboxSystem\PayboxRequest</parameter>
+        <parameter key="plemi_paybox.response.class">Plemi\Bundle\PayboxBundle\PayboxSystem\PayboxResponse</parameter>
+        <parameter key="plemi_paybox.transport.class">Plemi\Bundle\PayboxBundle\Transport\CurlTransport</parameter>
+    </parameters>
+    <services>
+        <!-- Request -->
+        <service id="plemi_paybox.request" class="%plemi_paybox.request.class%">
+            <argument type="service" id="plemi_paybox.transport" />
+        </service>
+        <!-- Reponse -->
+        <service id="plemi_paybox.response" class="%plemi_paybox.response.class%" />
+        <!-- Transport -->
+        <service id="plemi_paybox.transport" class="%plemi_paybox.transport.class%" public="false">
+            <argument key="endpoint">%plemi_paybox.endpoint%</argument>
+        </service>
+    </services>
+</container>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>Plemi</groupId>
+  <artifactId>PlemiPayboxBundle</artifactId>
+  <name>Plemi Paybox Bundle</name>
+  <url>http://www.plemi.com</url>
+  <version>1.0</version>
+  <packaging>pom</packaging>
+  <organization>
+    <name>Plemi</name>
+    <url>http://www.plemi.com/</url>
+  </organization>
+  <issueManagement>
+    <system>Redmine</system>
+    <url>http://projects.plemi.info/projects/payboxbundle/issues</url>
+  </issueManagement>
+  <ciManagement>
+    <system>Jenkins</system>
+    <url>http://jenkins.plemi.info</url>
+  </ciManagement>
+  <scm>
+    <developerConnection>http://projects.plemi.info/projects/payboxbundle</developerConnection>
+    <url>http://projects.plemi.info/projects/payboxbundle/repository/show?rev=develop</url>
+  </scm>
+  <properties>
+    <sonar.language>php</sonar.language>
+    <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+    <sonar.phpUnit.analyzeOnly>true</sonar.phpUnit.analyzeOnly>
+    <sonar.phpUnit.reportFileRelativePath>/../build/logs</sonar.phpUnit.reportFileRelativePath>
+    <sonar.phpUnit.reportFileName>junit.xml</sonar.phpUnit.reportFileName>
+    <sonar.phpUnit.coverage.analyzeOnly>true</sonar.phpUnit.coverage.analyzeOnly>
+    <sonar.phpUnit.coverageReportFile>clover.xml</sonar.phpUnit.coverageReportFile>
+    <sonar.phpPmd.analyzeOnly>true</sonar.phpPmd.analyzeOnly>
+    <sonar.phpPmd.reportFileRelativePath>/../build/logs</sonar.phpPmd.reportFileRelativePath>
+    <sonar.phpPmd.reportFileName>pmd.xml</sonar.phpPmd.reportFileName>
+    <sonar.phpCodesniffer.analyzeOnly>true</sonar.phpCodesniffer.analyzeOnly>
+    <sonar.phpCodesniffer.reportFileRelativePath>/../build/logs</sonar.phpCodesniffer.reportFileRelativePath>
+    <sonar.phpCodesniffer.reportFileName>checkstyle.xml</sonar.phpCodesniffer.reportFileName>
+    <sonar.phpDepend.analyzeOnly>true</sonar.phpDepend.analyzeOnly>
+    <sonar.phpDepend.reportFileRelativePath>/../build/logs</sonar.phpDepend.reportFileRelativePath>
+    <sonar.phpDepend.reportFileName>pdepend.xml</sonar.phpDepend.reportFileName>
+    <sonar.phpcpd.analyzeOnly>true</sonar.phpcpd.analyzeOnly>
+    <sonar.phpcpd.reportFileRelativePath>/../build/logs</sonar.phpcpd.reportFileRelativePath>
+    <sonar.phpcpd.reportFileName>pmd-cpd.xml</sonar.phpcpd.reportFileName>
+    <sonar.exclusions>**/vendor/**,**/Tests/**</sonar.exclusions>
+
+    <!-- to enable mutliple source directories. The phase must patch with the build-helper-maven-plugin exectution phase -->
+    <!-- <sonar.phase>generate-sources</sonar.phase> -->
+  </properties>
+  <build>
+    <!-- You cannot omit this one, because maven will implicitely add src/main/java
+      to it -->
+    <sourceDirectory>./</sourceDirectory>
+    <testSourceDirectory>./Tests/</testSourceDirectory>
+    <!-- build helper maven plugin to enable multiple source directories -->
+    <!-- <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.5</version>
+        <executions>
+          <execution>
+            <id>add-source</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>apps/</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins> -->
+  </build>
+</project>

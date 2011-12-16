@@ -1,0 +1,25 @@
+{
+    "name": "plemi/paybox-bundle",
+    "type": "symfony-bundle",
+    "description": "Bundle for the online payment system provided by Paybox",
+    "keywords": ["paybox", "payment"],
+    "authors": [
+        {
+            "name": "Plemi",
+            "homepage": "http://www.plemi.com"
+        },
+        {
+            "name": "Symfony Community",
+            "homepage": "https://github.com/Plemi/PlemiPayboxBundle/contributors"
+        }
+    ],
+    "require": {
+        "symfony/framework-bundle": "2.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Plemi\\Bundle\\PayboxBundle": ""
+        }
+    },
+    "target-dir": "Plemi/Bundle/PayboxBundle"
+}

@@ -1,5 +1,8 @@
-README
-======
+PlemiPayboxBundle
+=================
+
+[![Build Status](https://secure.travis-ci.org/Plemi/PlemiPayboxBundle.png)](http://travis-ci.org/Plemi/PlemiPayboxBundle)
+
 
 What is Paybox?
 -----------------
@@ -22,8 +25,7 @@ Requirements
 Installation
 ------------
 
-- ``` git clone git://github.com/plemi/payboxbundle.git /vendor/bundles/Plemi/PlemiPayboxBundle ```
-
+- Add the bundle to your deps file or add it as a git submodule.
 - Install CGI in "%kernel.root_dir%/app/Resources/cgi-bin/paybox.cgi"
 
 Documentation

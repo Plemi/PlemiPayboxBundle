@@ -13,21 +13,24 @@
 
 namespace Plemi\Bundle\PayboxBundle\Transport;
 
+use Plemi\Bundle\PayboxBundle\PayboxSystem\PayboxRequest;
+
 /**
  * This is what Transport classes must have.
  *
  * @author David Guyon <david.guyon@plemi.org>
  * @author Erwann Mest <erwann.mest@plemi.org>
  * @author Ludovic Fleury <ludovic.fleury@plemi.org>
+ * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
 interface TransportInterface
 {
     /**
      * Prepare and send a message.
-     * 
-     * @param array $datas Datas which will be sent to Paybox
+     *
+     * @param PayboxRequest $request Request instance
      *
      * @return string The Paybox response
      */
-    public function call(array $datas);
+    function call(PayboxRequest $request);
 }

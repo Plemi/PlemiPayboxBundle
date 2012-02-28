@@ -13,6 +13,7 @@
 
 namespace Plemi\Bundle\PayboxBundle\Tests\Transport;
 
+use Plemi\Bundle\PayboxBundle\PayboxSystem\PayboxRequest;
 use Plemi\Bundle\PayboxBundle\Transport\CurlTransport;
 
 /**
@@ -39,22 +40,21 @@ class CurlTransportTest extends \PHPUnit_Framework_TestCase
         $this->object->setEndpoint('http://test.fr/hey.cgi');
         $method = new \ReflectionMethod('\Plemi\Bundle\PayboxBundle\Transport\CurlTransport', 'call');
         $method->setAccessible(TRUE);
-        $response = $method->invoke($this->object, array());
+        $response = $method->invoke($this->object, new PayboxRequest());
         $this->assertTrue(is_string($response));
     }
 
     public function testCallEmpty()
     {
         $curl = new mockCurlTransport();
-        $this->assertEquals($curl->call(array()), '');
+        $this->assertEquals($curl->call(new PayboxRequest()), '');
     }
 
 }
 
 class mockCurlTransport extends CurlTransport
 {
-
-    public function call(array $datas)
+    public function call(PayboxRequest $request)
     {
         return '';
     }

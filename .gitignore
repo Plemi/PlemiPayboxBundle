@@ -1,5 +1,5 @@
-autoload.php
+composer.phar
+composer.lock
 phpunit.xml
-vendor/*
-!vendor/vendor.php
+vendor/
 build/

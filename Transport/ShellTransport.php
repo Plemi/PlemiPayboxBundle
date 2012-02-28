@@ -47,10 +47,19 @@ class ShellTransport extends AbstractTransport implements TransportInterface
     {
         $this->checkEndpoint();
 
-        $formattedDatas = implode(' ', $datas);
-        $response = shell_exec(sprintf('%s %s', escapeshellarg($this->getEndpoint()), escapeshellarg($formattedDatas)));
+        $cmd = sprintf('%s %s', escapeshellarg($this->getEndpoint()), $this->formatParameters($datas));
+        $response = shell_exec($cmd);
 
         return $response;
     }
 
+    private function formatParameters(array $datas)
+    {
+        $parameters = array();
+        foreach($datas as $key => $value) {
+            $parameters[] = sprintf('%s=%s', $key, escapeshellarg($value));
+        }
+
+        return implode(' ', $parameters);
+    }
 }

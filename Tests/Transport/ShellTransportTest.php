@@ -28,21 +28,28 @@ class ShellTransportTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \RuntimeException
      */
-    public function testCall()
+    public function testCallWithNonExistentEndpoint()
     {
         $this->object->setEndpoint('/hello/world/hey.cgi');
         $method = new \ReflectionMethod('\Plemi\Bundle\PayboxBundle\Transport\ShellTransport', 'call');
         $method->setAccessible(TRUE);
-        $response = $method->invoke($this->object, array());
-        $this->assertTrue(is_string($response));
+        $response = $method->invoke($this->object, array('CBX_RANG' => '2'));
+    }
+
+    public function testFormatParameters()
+    {
+        $method = new \ReflectionMethod('\Plemi\Bundle\PayboxBundle\Transport\ShellTransport', 'formatParameters');
+        $method->setAccessible(TRUE);
+        $params = $method->invoke($this->object, array('PBX_RANG' => '2', 'PBX_PAYBOX' => 'test'));
+        $this->assertInternalType('string', $params);
+        $this->assertEquals("PBX_RANG='2' PBX_PAYBOX='test'", $params, 'binary arguments are escaped, contain the key and are space separated');
     }
 
     public function testCallEmpty()
     {
-        $curl = new mockShellTransport();
-        $this->assertEquals($curl->call(array()), '');
+        $shell = new mockShellTransport();
+        $this->assertEquals($shell->call(array()), '');
     }
-
 }
 
 class mockShellTransport extends ShellTransport

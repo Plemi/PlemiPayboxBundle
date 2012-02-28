@@ -25,20 +25,6 @@ use Plemi\Bundle\PayboxBundle\PayboxSystem\PayboxRequest;
 class ShellTransport extends AbstractTransport implements TransportInterface
 {
     /**
-     * Ensure endpoint validity.
-     *
-     * @throws RuntimeException If the endpoint is not a valid filepath
-     */
-    protected function checkEndpoint()
-    {
-        parent::checkEndpoint();
-
-        if (!is_file($this->getEndpoint())) {
-            throw new \RuntimeException("The file '$this->endpoint' doesn't exist.");
-        }
-    }
-
-    /**
      * {@inheritDoc}
      *
      * @param PayboxRequest $request Request instance
@@ -58,10 +44,32 @@ class ShellTransport extends AbstractTransport implements TransportInterface
         return $response;
     }
 
+    /**
+     * Ensure endpoint validity.
+     *
+     * @throws RuntimeException If the endpoint is not a valid filepath
+     */
+    protected function checkEndpoint()
+    {
+        parent::checkEndpoint();
+
+        if (!is_file($this->getEndpoint())) {
+            throw new \RuntimeException("The file '$this->endpoint' doesn't exist.");
+        }
+    }
+
+    /**
+     * Format parameters
+     *
+     * Format an array of parameters to a query string
+     *
+     * @param  array  $datas [description]
+     * @return string
+     */
     private function formatParameters(array $datas)
     {
         $parameters = array();
-        foreach($datas as $key => $value) {
+        foreach ($datas as $key => $value) {
             $parameters[] = sprintf('%s=%s', $key, escapeshellarg($value));
         }
 

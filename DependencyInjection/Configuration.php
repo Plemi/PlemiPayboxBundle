@@ -34,7 +34,9 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('plemi_paybox');
 
-        $rootNode->children()->scalarNode('endpoint')->defaultValue('%kernel.root_dir%/app/Resources/cgi-bin/paybox.cgi')->end()->end();
+        $rootNode->children()->scalarNode('endpoint')
+            ->defaultValue('%kernel.root_dir%/Resources/cgi-bin/paybox.cgi')->end()
+        ->end();
 
         return $treeBuilder;
     }

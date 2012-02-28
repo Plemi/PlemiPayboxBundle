@@ -10,6 +10,9 @@ xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/sc
         <!-- Request -->
         <service id="plemi_paybox.request" class="%plemi_paybox.request.class%">
             <argument type="service" id="plemi_paybox.transport" />
+            <call method="setDatas">
+                <argument>%plemi_paybox.datas%</argument>
+            </call>
         </service>
         <!-- Reponse -->
         <service id="plemi_paybox.response" class="%plemi_paybox.response.class%" />

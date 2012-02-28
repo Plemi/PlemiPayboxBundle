@@ -37,14 +37,15 @@ Documentation
 
 You can use request and response completely separately.
 
-By default, you have to insert their CGIs in "%kernel.root_dir%/app/Resources/cgi-bin/paybox.cgi" but you can change this path via config.yml (depends on your environment):
+By default, you have to insert their CGIs in `%kernel.root_dir%/Resources/cgi-bin/paybox.cgi`
+but you can change this path via config.yml (depends on your environment):
 
-```
+``` yaml
 plemi_paybox:
-    endpoint: %kernel.root_dir%/cgi-bin
+    endpoint: %kernel.root_dir%/../vendor/paybox/cgi-bin/paybox.cgi
 ```
 
-WARNING: your folder must be +ExecCGI on it. Please, refer to Apache manual.
+WARNING: your folder must be +ExecCGI on it if you use `curl` transport. Please, refer to Apache manual.
 
 Usage
 -----
@@ -52,19 +53,57 @@ Usage
 ### Request
 
 ``` php
-$object = $this->getContainer('plemi_paybox.request');
-$datas = array('pbx_rang' => '34030', 'pbx_site' => '302', 'pbx_total' => '100');
-$object->setDatas($datas);
-$object->execute();
+$manager = $this->get('plemi_paybox.manager');
+$request = $manager->createRequest();
+
+$request->setTotal(100);
+$request->setRank(34030);
+$request->setSite(302);
+
+return new Response($request->execute());
 ```
 
 ### Response
 
 ``` php
-$object = $this->getContainer('plemi_paybox.response');
-$datas = $_GET[];
-$object->setDatas($datas);
-$object->getAmount();
+$manager  = $this->get('plemi_paybox.manager');
+$response = $manager->createResponse($this->getRequest());
+
+$amount = $response->getAmount();
+```
+
+Configuration
+-------------
+
+By default, bundle uses `shell` transport to talk with CGI module, you can switch it
+with `transport` option:
+
+``` yaml
+# app/config/config.yml
+plemi_paybox:
+    transport: curl
+```
+
+You can provide different path (url for `curl` transport) to cgi-bin with `endpoint`:
+
+``` yaml
+plemi_paybox:
+    endpoint: http://example.com/cgi-bin/paybox.cgi
+```
+
+You can specify default request parameters with `datas` option. For example, in
+`dev` environment, you will most likely want this:
+
+``` yaml
+# app/config/config_test.yml
+plemi_paybox:
+    datas:
+        PBX_RANG:        99
+        PBX_SITE:        1999888
+        PBX_IDENTIFIANT: 2
+        PBX_PAYBOX:      'https://preprod-tpeweb.paybox.com/cgi/MYchoix_pagepaiement.cgi'
+        PBX_BACKUP1:     'https://preprod-tpeweb.paybox.com/cgi/MYchoix_pagepaiement.cgi'
+        PBX_BACKUP2:     'https://preprod-tpeweb.paybox.com/cgi/MYchoix_pagepaiement.cgi'
 ```
 
 License

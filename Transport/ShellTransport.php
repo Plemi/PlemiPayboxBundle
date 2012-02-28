@@ -63,7 +63,8 @@ class ShellTransport extends AbstractTransport implements TransportInterface
      *
      * Format an array of parameters to a query string
      *
-     * @param  array  $datas [description]
+     * @param array $datas
+     *
      * @return string
      */
     private function formatParameters(array $datas)

@@ -140,7 +140,7 @@ class PayboxRequest
     /**
      * Hydrate object with an array of data.
      *
-     * @param array $val An array filled with paybox data
+     * @param array $datas An array filled with paybox data
      */
     public function setDatas(array $datas)
     {

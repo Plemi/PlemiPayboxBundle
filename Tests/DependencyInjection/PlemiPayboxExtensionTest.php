@@ -50,7 +50,7 @@ class PlemiPayboxExtensionTest extends \PHPUnit_Framework_TestCase
     public function testConfigurationDefault()
     {
         $this->extension->load(array( array()), $this->container);
-        $this->assertEquals('%kernel.root_dir%/app/Resources/cgi-bin/paybox.cgi', $this->container->getParameter('plemi_paybox.endpoint'));
+        $this->assertEquals('%kernel.root_dir%/Resources/cgi-bin/paybox.cgi', $this->container->getParameter('plemi_paybox.endpoint'));
     }
 
     /**
@@ -58,8 +58,8 @@ class PlemiPayboxExtensionTest extends \PHPUnit_Framework_TestCase
      */
     public function testConfigurationWithRealData()
     {
-        $this->extension->load(array( array('endpoint' => '%kernel.root_dir%/app/Resources/cgi-bin/paybox.cgi')), $this->container);
-        $this->assertEquals('%kernel.root_dir%/app/Resources/cgi-bin/paybox.cgi', $this->container->getParameter('plemi_paybox.endpoint'));
+        $this->extension->load(array( array('endpoint' => '%kernel.root_dir%/Resources/cgi-bin/paybox.cgi')), $this->container);
+        $this->assertEquals('%kernel.root_dir%/Resources/cgi-bin/paybox.cgi', $this->container->getParameter('plemi_paybox.endpoint'));
     }
 
     /**

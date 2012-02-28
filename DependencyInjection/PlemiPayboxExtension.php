@@ -45,6 +45,7 @@ class PlemiPayboxExtension extends Extension
         $container->setParameter('plemi_paybox.endpoint', $config['endpoint']);
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader->load('transport/'.$config['transport'].'.xml');
         $loader->load('paybox.xml');
     }
 
@@ -57,5 +58,4 @@ class PlemiPayboxExtension extends Extension
     {
         return 'plemi_paybox';
     }
-
 }

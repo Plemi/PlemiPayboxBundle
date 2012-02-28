@@ -13,6 +13,7 @@
 
 namespace Plemi\Bundle\PayboxBundle\Tests\Transport;
 
+use Plemi\Bundle\PayboxBundle\PayboxSystem\PayboxRequest;
 use Plemi\Bundle\PayboxBundle\Transport\ShellTransport;
 
 /**
@@ -33,16 +34,14 @@ class ShellTransportTest extends \PHPUnit_Framework_TestCase
         $this->object->setEndpoint('/hello/world/hey.cgi');
         $method = new \ReflectionMethod('\Plemi\Bundle\PayboxBundle\Transport\ShellTransport', 'call');
         $method->setAccessible(TRUE);
-        $response = $method->invoke($this->object, array('CBX_RANG' => '2'));
+        $response = $method->invoke($this->object, new PayboxRequest());
+        $this->assertTrue(is_string($response));
     }
 
     public function testFormatParameters()
     {
-        $method = new \ReflectionMethod('\Plemi\Bundle\PayboxBundle\Transport\ShellTransport', 'formatParameters');
-        $method->setAccessible(TRUE);
-        $params = $method->invoke($this->object, array('PBX_RANG' => '2', 'PBX_PAYBOX' => 'test'));
-        $this->assertInternalType('string', $params);
-        $this->assertEquals("PBX_RANG='2' PBX_PAYBOX='test'", $params, 'binary arguments are escaped, contain the key and are space separated');
+        $curl = new mockShellTransport();
+        $this->assertEquals($curl->call(new PayboxRequest()), '');
     }
 
     public function testCallEmpty()
@@ -55,7 +54,7 @@ class ShellTransportTest extends \PHPUnit_Framework_TestCase
 class mockShellTransport extends ShellTransport
 {
 
-    public function call(array $datas)
+    public function call(PayboxRequest $request)
     {
         return '';
     }

@@ -96,7 +96,7 @@ class PayboxRequestTest extends \PHPUnit_Framework_TestCase
     public function testSetData()
     {
         $this->object->setData('pbx_retour', 'test');
-        $this->assertAttributeEquals(array('pbx_retour' => 'test'), 'datas', $this->object);
+        $this->assertAttributeEquals(array('PBX_RETOUR' => 'test'), 'datas', $this->object);
     }
 
     public function testSetSite()
@@ -174,36 +174,6 @@ class PayboxRequestTest extends \PHPUnit_Framework_TestCase
         $this->assertAttributeEquals(array('PBX_RETOUR' => 'HELLO:HEY;R:B'), 'datas', $this->object);
     }
 
-    public function testFormatDatasWithCurlTransport()
-    {
-        $method = new \ReflectionMethod('\Plemi\Bundle\PayboxBundle\PayboxSystem\PayboxRequest', 'formatDatas');
-        $method->setAccessible(TRUE);
-
-        $transport = new CurlTransport();
-        $payboxRequest = new PayboxRequest($transport);
-
-        $this->assertTrue(count($payboxRequest->getDatas()) == 0);
-        
-        $method->invoke($payboxRequest);
-        
-        $this->assertTrue(count($payboxRequest->getDatas()) > 0);
-    }
-
-    public function testFormatDatasWithShellTransport()
-    {
-        $method = new \ReflectionMethod('\Plemi\Bundle\PayboxBundle\PayboxSystem\PayboxRequest', 'formatDatas');
-        $method->setAccessible(TRUE);
-
-        $transport = new ShellTransport();
-        $payboxRequest = new PayboxRequest($transport);
-
-        $this->assertTrue(count($payboxRequest->getDatas()) == 0);
-
-        $method->invoke($payboxRequest);
-
-        $this->assertTrue(count($payboxRequest->getDatas()) > 0);
-    }
-
     public function testGetTransport()
     {
         $mockPayboxRequest = new MockPayboxRequest();
@@ -240,7 +210,7 @@ class PayboxRequestTest extends \PHPUnit_Framework_TestCase
 
 class MockCurlTransport extends CurlTransport implements TransportInterface
 {
-    public function call(array $datas)
+    public function call(PayboxRequest $request)
     {
         return '';
     }

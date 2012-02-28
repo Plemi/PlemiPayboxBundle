@@ -13,6 +13,8 @@
 
 namespace Plemi\Bundle\PayboxBundle\Transport;
 
+use Plemi\Bundle\PayboxBundle\PayboxSystem\PayboxRequest;
+
 /**
  * Perform a call with shell exec
  *
@@ -39,13 +41,16 @@ class ShellTransport extends AbstractTransport implements TransportInterface
     /**
      * {@inheritDoc}
      *
-     * @param array $datas Datas which will be sent to Paybox
+     * @param PayboxRequest $request Request instance
      *
      * @return string $response The html of the temporary form
      */
-    public function call(array $datas)
+    public function call(PayboxRequest $request)
     {
         $this->checkEndpoint();
+
+        $datas = $request->checkAndGetDatas();
+        $datas['PBX_MODE'] = 4;
 
         $cmd = sprintf('%s %s', escapeshellarg($this->getEndpoint()), $this->formatParameters($datas));
         $response = shell_exec($cmd);

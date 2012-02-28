@@ -42,6 +42,10 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('endpoint')
                     ->defaultValue('%kernel.root_dir%/Resources/cgi-bin/paybox.cgi')
                 ->end()
+                ->arrayNode('datas')
+                    ->useAttributeAsKey(0)
+                    ->prototype('variable')->end()
+                ->end()
             ->end()
         ;
 

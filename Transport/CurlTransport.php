@@ -13,6 +13,8 @@
 
 namespace Plemi\Bundle\PayboxBundle\Transport;
 
+use Plemi\Bundle\PayboxBundle\PayboxSystem\PayboxRequest;
+
 /**
  * Perform a call with cURL
  *
@@ -24,7 +26,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
 {
     /**
      * Constructor
-     * 
+     *
      * @throws RuntimeException If cURL is not available
      */
     public function __construct()
@@ -37,16 +39,18 @@ class CurlTransport extends AbstractTransport implements TransportInterface
     /**
      * {@inheritDoc}
      *
-     * @param array $datas Datas which will be sent to Paybox
+     * @param PayboxRequest $request Request instance
      *
      * @throws RuntimeException On cURL error
      *
      * @return string $response The html of the temporary form
      */
-
-    public function call(array $datas)
+    public function call(PayboxRequest $request)
     {
         $this->checkEndpoint();
+
+        $datas = $request->checkAndGetDatas();
+        $datas['PBX_MODE'] = 1;
 
         $ch = curl_init();
 

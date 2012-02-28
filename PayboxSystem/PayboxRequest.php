@@ -27,7 +27,10 @@ class PayboxRequest
      *
      * @var array $datas
      */
-    protected $datas;
+    protected $datas = array(
+        'PBX_RETOUR' => 'M:M;R:R;T:T;A:A;B:B;P:P;C:C;S:S;Y:Y;E:E;D:D;S:S;I:I;N:N;H:H;G:G;O:O;F:F;J:J;W:W;Z:Z;Q:Q;K:K',
+        'PBX_DEVISE' => 978,
+    );
 
     /**
      * @var TransportInterface This is how
@@ -44,7 +47,6 @@ class PayboxRequest
     public function __construct(TransportInterface $transport = null)
     {
         $this->transport = $transport;
-        $this->datas = array();
     }
 
     /**
@@ -81,32 +83,13 @@ class PayboxRequest
     {
         $transport = $this->getTransport();
 
-        if (!$transport instanceof TransportInterface) {
-            throw new \RuntimeException('Undefined transport');
+        if (null === $transport) {
+            throw new \RuntimeException('Please, provide transport to proceed');
         }
 
-        $this->formatDatas();
-
-        $response = $transport->call($this->getDatas());
+        $response  = $transport->call($this);
 
         return $response;
-    }
-
-    /**
-     * Will format datas depending to the transport used
-     */
-    private function formatDatas()
-    {
-        $transportClassName = get_class($this->getTransport());
-
-        // @TODO Remove dependencies, refactor PBX_MODE in the transport side.
-        if ($transportClassName == 'Plemi\Bundle\PayboxBundle\Transport\CurlTransport') {
-            $this->setData('PBX_MODE', '1');
-        } elseif ($transportClassName == 'Plemi\Bundle\PayboxBundle\Transport\ShellTransport') {
-            $this->setData('PBX_MODE', '4');
-        }
-
-        $this->setData('PBX_RETOUR', 'M:M;R:R;T:T;A:A;B:B;P:P;C:C;S:S;Y:Y;E:E;D:D;S:S;I:I;N:N;H:H;G:G;O:O;F:F;J:J;W:W;Z:Z;Q:Q;K:K');
     }
 
     /**
@@ -120,13 +103,50 @@ class PayboxRequest
     }
 
     /**
+     * Checks data for mandatory fields and returns it.
+     *
+     * @return array
+     */
+    public function checkAndGetDatas()
+    {
+        $datas = $this->getDatas();
+        $required = array(
+            'PBX_SITE',
+            'PBX_RANG',
+            'PBX_TOTAL',
+            'PBX_DEVISE',
+            'PBX_CMD',
+            'PBX_PORTEUR',
+            'PBX_RETOUR',
+            'PBX_IDENTIFIANT'
+        );
+
+        $missingFields = array();
+        foreach ($required as $key) {
+            if (!isset($datas[$key])) {
+                $missingFields[] = $key;
+            }
+        }
+
+        if (count($missingFields)) {
+            throw new \RuntimeException(
+                'Please, provide '.implode(', ', $missingFields).' value(s) in order to proceed'
+            );
+        }
+
+        return $datas;
+    }
+
+    /**
      * Hydrate object with an array of data.
      *
      * @param array $val An array filled with paybox data
      */
-    public function setDatas(array $val)
+    public function setDatas(array $datas)
     {
-        $this->datas = array_merge($this->datas, $val);
+        foreach ($datas as $key => $val) {
+            $this->setData($key, $val);
+        }
     }
 
     /**
@@ -138,6 +158,8 @@ class PayboxRequest
      */
     public function getData($key)
     {
+        $key = strtoupper($key);
+
         return isset($this->datas[$key]) ? $this->datas[$key] : '';
     }
 
@@ -149,6 +171,7 @@ class PayboxRequest
      */
     public function setData($key, $val)
     {
+        $key = strtoupper($key);
         $this->datas[$key] = $val;
     }
 
@@ -292,5 +315,4 @@ class PayboxRequest
     {
         $this->datas['PBX_RETOUR'] = $param;
     }
-
 }

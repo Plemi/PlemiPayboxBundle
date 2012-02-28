@@ -48,7 +48,7 @@ class PayboxRequestTest extends \PHPUnit_Framework_TestCase
     public function testGetDatas()
     {
         $this->assertTrue(is_array($this->object->getDatas()));
-        $this->assertTrue(count($this->object->getDatas()) == 0);
+        $this->assertTrue(count($this->object->getDatas()) == 2);
     }
 
     public function testSetDatas()
@@ -60,7 +60,7 @@ class PayboxRequestTest extends \PHPUnit_Framework_TestCase
         $this->object->setDatas($array);
         $datas = $this->object->getDatas();
 
-        $this->assertTrue(count($this->object->getDatas()) == 2);
+        $this->assertTrue(count($this->object->getDatas()) == 3);
 
         $array = array(
                 'pbx_effectue' => 'test',
@@ -68,7 +68,7 @@ class PayboxRequestTest extends \PHPUnit_Framework_TestCase
         );
         $this->object->setDatas($array);
 
-        $this->assertTrue(count($this->object->getDatas()) == 4);
+        $this->assertTrue(count($this->object->getDatas()) == 5);
 
         $array = array(
                 'pbx_effectue' => 'test',
@@ -76,14 +76,14 @@ class PayboxRequestTest extends \PHPUnit_Framework_TestCase
         );
         $this->object->setDatas($array);
 
-        $this->assertTrue(count($this->object->getDatas()) == 5);
+        $this->assertTrue(count($this->object->getDatas()) == 6);
     }
 
-    public function testGetEmptyData()
+    public function testGetDefaultData()
     {
         $data = $this->object->getData('pbx_retour');
         $this->assertTrue(is_string($data));
-        $this->assertEquals($data, '');
+        $this->assertEquals('M:M;R:R;T:T;A:A;B:B;P:P;C:C;S:S;Y:Y;E:E;D:D;S:S;I:I;N:N;H:H;G:G;O:O;F:F;J:J;W:W;Z:Z;Q:Q;K:K', $data);
     }
 
     public function testGetData()
@@ -96,112 +96,92 @@ class PayboxRequestTest extends \PHPUnit_Framework_TestCase
     public function testSetData()
     {
         $this->object->setData('pbx_retour', 'test');
-        $this->assertAttributeEquals(array('pbx_retour' => 'test'), 'datas', $this->object);
+        $this->assertDatas(array('PBX_RETOUR' => 'test'), $this->object);
     }
 
     public function testSetSite()
     {
         $this->object->setSite('test');
-        $this->assertAttributeEquals(array('PBX_SITE' => 'test'), 'datas', $this->object);
+        $this->assertDatas(array('PBX_SITE' => 'test'), $this->object);
     }
 
     public function testSetRank()
     {
         $this->object->setRank('test');
-        $this->assertAttributeEquals(array('PBX_RANG' => 'test'), 'datas', $this->object);
+        $this->assertDatas(array('PBX_RANG' => 'test'), $this->object);
     }
 
     public function testSetIdentifier()
     {
         $this->object->setIdentifier('test');
-        $this->assertAttributeEquals(array('PBX_IDENTIFIANT' => 'test'), 'datas', $this->object);
+        $this->assertDatas(array('PBX_IDENTIFIANT' => 'test'), $this->object);
     }
 
     public function testSetAmount()
     {
         $this->object->setAmount('test');
-        $this->assertAttributeEquals(array('PBX_TOTAL' => 'test'), 'datas', $this->object);
+        $this->assertDatas(array('PBX_TOTAL' => 'test'), $this->object);
     }
 
     public function testSetCurrency()
     {
         $this->object->setCurrency('EUR');
-        $this->assertAttributeEquals(array('PBX_DEVISE' => '978'), 'datas', $this->object);
+        $this->assertDatas(array('PBX_DEVISE' => '978'), $this->object);
 
         $this->object->setCurrency('USD');
-        $this->assertAttributeEquals(array('PBX_DEVISE' => '840'), 'datas', $this->object);
+        $this->assertDatas(array('PBX_DEVISE' => '840'), $this->object);
     }
 
     public function testSetOrderReference()
     {
         $this->object->setOrderReference('test');
-        $this->assertAttributeEquals(array('PBX_CMD' => 'test'), 'datas', $this->object);
+        $this->assertDatas(array('PBX_CMD' => 'test'), $this->object);
     }
 
     public function testSetPurchaserEmail()
     {
         $this->object->setPurchaserEmail('test');
-        $this->assertAttributeEquals(array('PBX_PORTEUR' => 'test'), 'datas', $this->object);
+        $this->assertDatas(array('PBX_PORTEUR' => 'test'), $this->object);
     }
 
     public function testSetAcceptedPaymentUrl()
     {
         $this->object->setAcceptedPaymentUrl('test');
-        $this->assertAttributeEquals(array('PBX_EFFECTUE' => 'test'), 'datas', $this->object);
+        $this->assertDatas(array('PBX_EFFECTUE' => 'test'), $this->object);
     }
 
     public function testSetRefusedPaymentUrl()
     {
         $this->object->setRefusedPaymentUrl('test');
-        $this->assertAttributeEquals(array('PBX_REFUSE' => 'test'), 'datas', $this->object);
+        $this->assertDatas(array('PBX_REFUSE' => 'test'), $this->object);
     }
 
     public function testSetCanceledPaymentUrl()
     {
         $this->object->setCanceledPaymentUrl('test');
-        $this->assertAttributeEquals(array('PBX_ANNULE' => 'test'), 'datas', $this->object);
+        $this->assertDatas(array('PBX_ANNULE' => 'test'), $this->object);
     }
 
     public function testSetServerToServerCallUrl()
     {
         $this->object->setServerToServerCallUrl('test');
-        $this->assertAttributeEquals(array('PBX_REPONDRE_A' => 'test'), 'datas', $this->object);
+        $this->assertDatas(array('PBX_REPONDRE_A' => 'test'), $this->object);
     }
 
     public function testSetReturnParameters()
     {
         $this->object->setReturnParameters('HELLO:HEY;R:B');
-        $this->assertAttributeEquals(array('PBX_RETOUR' => 'HELLO:HEY;R:B'), 'datas', $this->object);
+        $this->assertDatas(array('PBX_DEVISE' => 978, 'PBX_RETOUR' => 'HELLO:HEY;R:B'), $this->object);
     }
 
-    public function testFormatDatasWithCurlTransport()
+    public function assertDatas($etalon, $object)
     {
-        $method = new \ReflectionMethod('\Plemi\Bundle\PayboxBundle\PayboxSystem\PayboxRequest', 'formatDatas');
-        $method->setAccessible(TRUE);
+        $etalon = array_merge(array(
+            'PBX_RETOUR' => 'M:M;R:R;T:T;A:A;B:B;P:P;C:C;S:S;Y:Y;E:E;D:D;S:S;I:I;N:N;H:H;G:G;O:O;F:F;J:J;W:W;Z:Z;Q:Q;K:K',
+            'PBX_DEVISE' => 978,
+        ), $etalon);
 
-        $transport = new CurlTransport();
-        $payboxRequest = new PayboxRequest($transport);
-
-        $this->assertTrue(count($payboxRequest->getDatas()) == 0);
-        
-        $method->invoke($payboxRequest);
-        
-        $this->assertTrue(count($payboxRequest->getDatas()) > 0);
-    }
-
-    public function testFormatDatasWithShellTransport()
-    {
-        $method = new \ReflectionMethod('\Plemi\Bundle\PayboxBundle\PayboxSystem\PayboxRequest', 'formatDatas');
-        $method->setAccessible(TRUE);
-
-        $transport = new ShellTransport();
-        $payboxRequest = new PayboxRequest($transport);
-
-        $this->assertTrue(count($payboxRequest->getDatas()) == 0);
-
-        $method->invoke($payboxRequest);
-
-        $this->assertTrue(count($payboxRequest->getDatas()) > 0);
+        $this->assertAttributeEquals($etalon, 'datas', $object);
     }
 
     public function testGetTransport()
@@ -240,7 +220,7 @@ class PayboxRequestTest extends \PHPUnit_Framework_TestCase
 
 class MockCurlTransport extends CurlTransport implements TransportInterface
 {
-    public function call(array $datas)
+    public function call(PayboxRequest $request)
     {
         return '';
     }

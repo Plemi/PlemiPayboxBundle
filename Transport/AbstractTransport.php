@@ -31,10 +31,12 @@ abstract class AbstractTransport
 
     /**
      * Construct the object
+     *
+     * @param string $endpoint to paybox endpoint
      */
-    public function __construct()
+    public function __construct($endpoint = '')
     {
-        $this->endpoint = '';
+        $this->endpoint = $endpoint;
     }
 
     /**

@@ -47,7 +47,6 @@ class PayboxRequest
     public function __construct(TransportInterface $transport = null)
     {
         $this->transport = $transport;
-        $this->datas = array();
     }
 
     /**

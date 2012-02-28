@@ -47,7 +47,7 @@ class ShellTransportTest extends \PHPUnit_Framework_TestCase
     public function testCallEmpty()
     {
         $shell = new mockShellTransport();
-        $this->assertEquals($shell->call(array()), '');
+        $this->assertEquals($shell->call(new PayboxRequest()), '');
     }
 }
 

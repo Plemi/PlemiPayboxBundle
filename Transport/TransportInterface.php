@@ -32,5 +32,5 @@ interface TransportInterface
      *
      * @return string The Paybox response
      */
-    function call(PayboxRequest $request);
+    public function call(PayboxRequest $request);
 }

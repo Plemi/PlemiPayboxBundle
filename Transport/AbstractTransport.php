@@ -66,7 +66,7 @@ abstract class AbstractTransport
 
     /**
      * Perform a call
-     * 
+     *
      * @throws RunTimeException If no endpoint defined
      */
     protected function checkEndpoint()

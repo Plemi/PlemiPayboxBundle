@@ -16,7 +16,6 @@ namespace Plemi\Bundle\PayboxBundle\Tests\PayboxSystem;
 use Plemi\Bundle\PayboxBundle\PayboxSystem\PayboxRequest;
 use Plemi\Bundle\PayboxBundle\Transport\TransportInterface;
 use Plemi\Bundle\PayboxBundle\Transport\CurlTransport;
-use Plemi\Bundle\PayboxBundle\Transport\ShellTransport;
 
 /**
  * Test class for PayboxRequest.

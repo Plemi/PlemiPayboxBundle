@@ -14,8 +14,6 @@
 namespace Plemi\Bundle\PayboxBundle\Tests\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Reference;
 
 use Plemi\Bundle\PayboxBundle\DependencyInjection\PlemiPayboxExtension;
 

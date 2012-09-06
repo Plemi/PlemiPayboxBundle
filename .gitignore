@@ -1,5 +1,6 @@
 composer.phar
 composer.lock
+php-cs-fixer.phar
 phpunit.xml
 vendor/
 build/

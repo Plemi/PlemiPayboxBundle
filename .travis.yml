@@ -1,7 +1,6 @@
 language: php
 
 php:
-    - 5.3
     - 5.4
 
 branches:
@@ -11,3 +10,10 @@ branches:
 before_script:
   - wget -nc http://getcomposer.org/composer.phar
   - php composer.phar install --dev
+
+script:
+  - phpunit
+
+after_script:
+  - wget -nc http://cs.sensiolabs.org/get/php-cs-fixer.phar
+  - php php-cs-fixer.phar fix ./ --dry-run --verbose

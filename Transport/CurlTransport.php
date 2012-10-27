@@ -27,13 +27,16 @@ class CurlTransport extends AbstractTransport implements TransportInterface
     /**
      * Constructor
      *
+     * @param string $endpoint to paybox endpoint
      * @throws RuntimeException If cURL is not available
      */
-    public function __construct()
+    public function __construct($endpoint = '')
     {
         if (!function_exists('curl_init')) {
             throw new \RuntimeException('cURL is not available. Activate it first.');
         }
+
+        parent::__construct($endpoint);
     }
 
     /**

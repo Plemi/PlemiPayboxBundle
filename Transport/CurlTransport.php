@@ -27,7 +27,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
     /**
      * Constructor
      *
-     * @param string $endpoint to paybox endpoint
+     * @param  string           $endpoint to paybox endpoint
      * @throws RuntimeException If cURL is not available
      */
     public function __construct($endpoint = '')

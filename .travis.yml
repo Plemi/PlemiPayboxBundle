@@ -3,12 +3,12 @@ php:
   - 5.4
   - 5.5
 before_script:
-  - wget -nc http://getcomposer.org/composer.phar
-  - php composer.phar install --dev
+  - wget -nc -nv http://getcomposer.org/composer.phar
+  - php composer.phar install --dev --prefer-source --no-progress
 script:
   - php vendor/bin/phpunit -c phpunit.xml.dist --coverage-text
 after_success:
-  - wget -nc http://cs.sensiolabs.org/get/php-cs-fixer.phar
+  - wget -nc -nv http://cs.sensiolabs.org/get/php-cs-fixer.phar
   - php php-cs-fixer.phar fix ./ --dry-run --verbose
 notifications:
   email:

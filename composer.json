@@ -24,7 +24,7 @@
             "Plemi\\Bundle\\PayboxBundle": ""
         }
     },
-    "target-dir": "Plemi/PayboxBundle",
+    "target-dir": "Plemi/Bundle/PayboxBundle",
     "extra": {
         "branch-alias": {
             "dev-master": "1.0-dev"

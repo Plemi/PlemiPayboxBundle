@@ -2,6 +2,7 @@ PlemiPayboxBundle
 =================
 
 [![Build Status](https://secure.travis-ci.org/Plemi/PlemiPayboxBundle.png)](http://travis-ci.org/Plemi/PlemiPayboxBundle)
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/Plemi/plemipayboxbundle/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 
 What is Paybox?

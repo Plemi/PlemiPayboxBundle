@@ -1,10 +1,10 @@
 language: php
 php:
+  - 5.3
   - 5.4
   - 5.5
 before_script:
-  - wget -nc -nv http://getcomposer.org/composer.phar
-  - php composer.phar install --dev --prefer-source --no-progress
+  - composer install --dev --prefer-dist --no-progress
 script:
   - php vendor/bin/phpunit -c phpunit.xml.dist --coverage-text
 after_success:

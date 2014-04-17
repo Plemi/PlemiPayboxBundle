@@ -43,7 +43,8 @@ class PlemiPayboxExtension extends Extension
             throw new \InvalidArgumentException('The "endpoint" option must be set in order to use "plemi_paybox" service');
         }
         $container->setParameter('plemi_paybox.endpoint', $config['endpoint']);
-        $container->setParameter('plemi_paybox.datas', $config['boxes']['default']['datas']);
+        $container->setParameter('plemi_paybox.default_datas', $config['boxes']['default']['datas']);
+        $container->setParameter('plemi_paybox.boxes', $config['boxes']);
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('transport/'.$config['transport'].'.xml');

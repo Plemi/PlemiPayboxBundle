@@ -5,6 +5,7 @@ xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/sc
     <parameters>
         <parameter key="plemi_paybox.manager.class">Plemi\Bundle\PayboxBundle\PayboxSystem\PayboxManager</parameter>
         <parameter key="plemi_paybox.request.class">Plemi\Bundle\PayboxBundle\PayboxSystem\PayboxRequest</parameter>
+        <parameter key="plemi_paybox.request_factory.class">Plemi\Bundle\PayboxBundle\PayboxSystem\PayboxRequestFactory</parameter>
         <parameter key="plemi_paybox.response.class">Plemi\Bundle\PayboxBundle\PayboxSystem\PayboxResponse</parameter>
     </parameters>
     <services>
@@ -16,8 +17,13 @@ xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/sc
         <service id="plemi_paybox.request" class="%plemi_paybox.request.class%">
             <argument type="service" id="plemi_paybox.transport" />
             <call method="setDatas">
-                <argument>%plemi_paybox.datas%</argument>
+                <argument>%plemi_paybox.default_datas%</argument>
             </call>
+        </service>
+        <!-- Request Factory -->
+        <service id="plemi_paybox.request_factory" class="%plemi_paybox.request_factory.class%">
+            <argument type="service" id="plemi_paybox.manager" />
+            <argument>%plemi_paybox.boxes%</argument>
         </service>
         <!-- Reponse -->
         <service id="plemi_paybox.response" class="%plemi_paybox.response.class%" />

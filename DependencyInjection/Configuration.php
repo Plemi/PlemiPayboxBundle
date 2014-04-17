@@ -35,6 +35,28 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('plemi_paybox');
 
         $rootNode
+            ->beforeNormalization()
+                ->ifTrue(function ($v) { return array_key_exists('datas', $v); })
+                ->then(function ($v) {
+                    $v['boxes'] = array(
+                        'default' => array(
+                            'datas' => $v['datas'],
+                        ),
+                    );
+
+                    return $v;
+                })
+            ->end()
+            ->beforeNormalization()
+                ->ifTrue(function ($v) { return array_key_exists('boxes', $v) && !array_key_exists('default', $v['boxes']); })
+                ->then(function ($v) {
+                    $v['boxes']['default'] = array(
+                        'datas' => array(),
+                    );
+
+                    return $v;
+                })
+            ->end()
             ->children()
                 ->scalarNode('transport')
                     ->defaultValue('shell')
@@ -45,6 +67,16 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('datas')
                     ->useAttributeAsKey(0)
                     ->prototype('variable')->end()
+                ->end()
+                ->arrayNode('boxes')
+                    ->defaultValue(array('default' => array('datas' => array())))
+                    ->prototype('array')
+                        ->children()
+                            ->arrayNode('datas')
+                                ->prototype('variable')->end()
+                            ->end()
+                        ->end()
+                    ->end()
                 ->end()
             ->end()
         ;

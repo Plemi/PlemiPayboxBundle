@@ -28,7 +28,7 @@ class PayboxRequest
      * @var array $datas
      */
     protected $datas = array(
-        'PBX_RETOUR' => 'M:M;R:R;T:T;A:A;B:B;P:P;C:C;S:S;Y:Y;E:E;D:D;S:S;I:I;N:N;H:H;G:G;O:O;F:F;J:J;W:W;Z:Z;Q:Q;K:K',
+        'PBX_RETOUR' => 'M:M;R:R;T:T;A:A;B:B;P:P;C:C;S:S;Y:Y;E:E;D:D;U:U;I:I;N:N;H:H;G:G;O:O;F:F;J:J;W:W;Z:Z;Q:Q;K:K',
         'PBX_DEVISE' => 978,
     );
 
